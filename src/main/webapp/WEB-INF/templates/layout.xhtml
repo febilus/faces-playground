@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="#{activeLocale.languageTag}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:h="jakarta.faces.html"
+      xmlns:c="jakarta.tags.core"
+      xmlns:f="jakarta.faces.core">
+    <f:view locale="#{activeLocale.currentLocale}">
+        <h:head>
+            <title>#{title}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <h:outputStylesheet library="css" name="bootstrap.min.css" />
+            <h:outputStylesheet library="css" name="default.css"/>
+            <link rel="icon" href="/resources/images/layout/favicon.png" type="image/png" sizes="32x32" />
+            <link rel="icon" href="/resources/images/layout/favicon.svg" type="image/svg+xml" />
+            <link rel="apple-touch-icon" href="/resources/images/layout/favicon.png" />
+        </h:head>
+        <h:body>
+            <c:set var="DEVELOPMENT" scope="application" value="#{facesContext.application.projectStage eq 'Development'}"/>
+            <div class="container-xl">
+                <div class="row">
+                    <div class="col">
+                        <header>
+                            <ui:include src="/WEB-INF/includes/layout/header.xhtml" />
+                        </header>
+                        <main>
+                            <ui:insert name="content" />
+                        </main>
+                        <footer>
+                            <ui:include src="/WEB-INF/includes/layout/footer.xhtml" />
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

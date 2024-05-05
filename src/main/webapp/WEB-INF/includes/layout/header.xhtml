@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    >
+
+    <div class="d-flex justify-content-between mb-5">
+        <div>
+            <a href="#{request.contextPath}/">
+                <h:graphicImage width="301" height="60" name="images/layout/playground.svg" />
+            </a>
+        </div>
+        <div>
+            <h:form>
+                <h:outputLabel class="form-label" for="currentLanguage" value="#{text['currentLanguage']}"/>
+                <h:selectOneMenu id="currentLanguage" class="form-select" value="#{activeLocale.languageTag}">
+                    <f:selectItems value="#{activeLocale.availableLocales}"
+                                   var="loc"
+                                   itemValue="#{loc.toLanguageTag()}"
+                                   itemLabel="#{loc.getDisplayLanguage(loc)}" />
+                    <f:ajax listener="#{activeLocale.reload()}"/>
+                </h:selectOneMenu>
+            </h:form>
+        </div>
+    </div>
+</ui:composition>

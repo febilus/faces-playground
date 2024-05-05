@@ -1,0 +1,112 @@
+:root {
+    --body-font-size: 0.875rem;
+    --font-size-small: 0.75rem;
+
+    --color-canvas-default: #123;
+
+    --color-fg-default: #e6edf3;
+    --color-fg-muted: #848d97;
+    --color-fg-subtle: #6e7681;
+
+    --color-accent-fg: #2f81f7;
+    --color-accent-emphasis: #1f6feb;
+    --color-accent-muted: rgba(56,139,253,0.4);
+    --color-accent-subtle: rgba(56,139,253,0.1);
+
+    --color-success-fg: #3fb950;
+    --color-success-emphasis: #238636;
+    --color-success-muted: rgba(46,160,67,0.4);
+    --color-success-subtle: rgba(46,160,67,0.15);
+
+    --color-attention-fg: #d29922;
+    --color-attention-emphasis: #9e6a03;
+    --color-attention-muted: rgba(187,128,9,0.4);
+    --color-attention-subtle: rgba(187,128,9,0.15);
+
+    --color-danger-fg: #f85149;
+    --color-danger-emphasis: #da3633;
+    --color-danger-muted: rgba(248,81,73,0.4);
+    --color-danger-subtle: rgba(248,81,73,0.1);
+}
+
+body {
+    background-color: var(--color-canvas-default);
+    font-size: var(--body-font-size);
+    font-family: "Fira Sans","Helvetica", sans-serif;
+    margin: 10px;
+    color: var(--color-fg-default);
+}
+
+h1 {
+    border-bottom: 1px solid #AFAFAF;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+}
+
+.field {
+    padding: 0.5rem 0;
+}
+
+label {
+    display: block;
+}
+a:link, a:visited {
+    color: var(--color-accent-fg);
+    font-weight : bold;
+    text-decoration: none;
+}
+
+a:link:hover, a:visited:hover  {
+    color: #045491;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+.messages,
+.messages-input {
+    margin:0;
+    padding:0;
+}
+.messages li
+.messages-input {
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+
+.messages-info,
+.messages-error,
+.messages-fatal {
+    padding: 3px;
+    display: block;
+    font-size: var(--font-size-small);
+}
+
+.messages-info {
+    color: var(--color-success-fg)
+}
+.messages-error {
+    color: var(--color-attention-fg)
+}
+.messages-fatal {
+    color: var(--color-danger-fg)
+}
+
+.messages:has(> .messages-info) {
+    border: 1px solid var(--color-success-fg);
+    background-color: var(--color-succes-emphasis);
+    color:var(--color-succes-fg);
+    border-radius: 0.3rem;
+}
+.messages:has(> .messages-error) {
+    border: 1px solid var(--color-attention-fg);
+    background-color: var(--color-attention-muted);
+    border-radius: 0.3rem;
+}
+.messages:has(> .messages-fatal) {
+    border: 1px solid var(--color-danger-fg);
+    background-color: var(--color-danger-emphasis);
+    border-radius: 0.3rem;
+}

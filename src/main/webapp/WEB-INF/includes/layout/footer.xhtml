@@ -1,0 +1,12 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    >
+
+    <small>#{text['pages.footer.smallText']}</small>
+    <ui:decorate template="/WEB-INF/decorations/contact.xhtml">
+        <ui:param name="mailto" value="example" />
+        <h4>#{text['pages.footer.contact']}:</h4>
+    </ui:decorate>
+</ui:composition>

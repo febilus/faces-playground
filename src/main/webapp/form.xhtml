@@ -1,0 +1,135 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:play="playground.tags"
+    template="/WEB-INF/templates/layout.xhtml"
+    >
+
+    <ui:param name="title" value="#{text['pages.form.header']}" />
+
+    <ui:define name="content">
+        <h1>#{text['pages.form.header']}</h1>
+        <br /><br />
+
+        <h:form id="formly">
+            <h:messages id="messages" class="messages" showSummary="false" showDetail="true" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+            <ui:fragment rendered="#{not formView.bean.submitted}">
+
+                <div class="mb-3">
+                    <h:outputLabel class="form-label" for="firstname" value="#{text['label.firstname']}"/>
+                    <h:inputText  id="firstname" class="form-control" value="#{formView.bean.firstname}" required="true" requiredMessage="#{messages['FIRSTNAME_MISSING']}">
+                        <f:validateLength minimum="2" maximum="100" />
+                    </h:inputText>
+                    <h:messages id="m_firstname" class="messages-input" for="firstname" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="mb-3">
+                    <h:outputLabel class="form-label" for="serialNumber" value="#{text['label.serialNumber']}" />
+                    <h:inputText  id="serialNumber" class="form-control" value="#{formView.bean.serialNumber}" required="true" requiredMessage="#{messages['SERIALNUMBER_MISSING']}">
+                        <f:validateRegex pattern="[0-9-]{2,10}" />
+                    </h:inputText>
+                    <h:messages id="m_serialNumber" class="messages-input" for="serialNumber" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="mb-3">
+                    <h:outputLabel class="form-label" for="email" value="#{text['label.email']}" />
+                    <h:inputText type="email" id="email" class="form-control" value="#{formView.bean.email}" required="true" requiredMessage="#{messages['EMAIL_MISSING']}">
+                        <f:validator validatorId="play.EmailValidator" />
+                    </h:inputText>
+                    <h:messages id="m_email" class="messages-input" for="email" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-12 col-md-6">
+                        <h:outputLabel class="form-label" for="country" value="#{text['label.country']}"/>
+                        <h:selectOneMenu id="country" class="form-select" value="#{formView.bean.country}" hideNoSelectionOption="true" requiredMessage="#{messages['COUNTRY_MISSING']}">
+                            <f:selectItem itemValue="#{null}" itemLabel="-- #{text['input.option.choose']} --" noSelectionOption="true" />
+                            <f:selectItems value="#{formView.countries.entrySet()}" var="entry" itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+                            <f:validateRequired />
+                        </h:selectOneMenu>
+                        <h:messages id="m_country" class="messages-input" for="country" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                    </div>
+
+                    <div class="mb-3 col-12 col-md-6">
+                        <h:outputLabel class="form-label" for="birthday" value="#{text['label.birthday']}"/>
+                        <h:inputText id="birthday" class="form-control" type="date" pt:min="#{formView.minBirthday}" pt:max="#{formView.maxBirthday}" value="#{formView.bean.birthday}" required="true" requiredMessage="#{messages['BIRTHDAY_MISSING']}">
+                            <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                        </h:inputText>
+                        <h:messages id="m_birthday" class="messages-input" for="birthday" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                    </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <h:selectBooleanCheckbox id="termsAccepted" class="form-check-input" value="#{formView.bean.termsAccepted}" requiredMessage="#{messages['TERMS_ACCEPTED_MISSING']}">
+                        <f:validator validatorId="play.RequiredCheckboxValidator" />
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel class="form-check-label" for="termsAccepted" value="#{text['label.acceptTerms']}"/>
+                    <h:messages id="m_termsAccepted" class="messages-input" for="termsAccepted" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <h:panelGroup id="address" class="row mb-3" layout="block">
+                    <div class="col-2">
+                        <h:outputLabel class="form-label" for="zip" value="#{text['label.zip']}"/>
+                        <h:inputText id="zip" class="form-control" value="#{formView.bean.zip}" required="true" binding="#{zipBinding}" requiredMessage="#{messages['ZIP_MISSING']}" autocomplete="postal-code">
+                            <f:attribute name="cityComponent" value="#{cityBinding}" />
+                            <f:attribute name="streetComponent" value="#{streetBinding}" />
+                            <f:attribute name="suggestionContainer" value="#{formView.bean.suggestions}" />
+                            <f:validateLength minimum="4" maximum="10" />
+                            <f:validator validatorId="play.AddressValidator"/>
+                            <f:ajax event="keyup" delay="300" execute="formly:address" render="formly:address-suggestions" />
+                        </h:inputText>
+                        <h:messages id="m_zip" class="messages-input" for="zip" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                    </div>
+                    <div class="col-4">
+                        <h:outputLabel class="form-label" for="city" value="#{text['label.city']}"/>
+                        <h:inputText id="city" class="form-control" value="#{formView.bean.city}" required="true" binding="#{cityBinding}" requiredMessage="#{messages['CITY_MISSING']}" autocomplete="address-level2">
+                            <f:attribute name="zipComponent" value="#{zipBinding}" />
+                            <f:attribute name="streetComponent" value="#{streetBinding}" />
+                            <f:attribute name="suggestionContainer" value="#{formView.bean.suggestions}" />
+                            <f:validateLength minimum="2" maximum="255" />
+                            <f:validator validatorId="play.AddressValidator" />
+                            <f:ajax event="keyup" delay="300" execute="formly:address" render="formly:address-suggestions" />
+                        </h:inputText>
+                        <h:messages id="m_city" class="messages-input" for="city" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                    </div>
+                    <div class="col-6">
+                        <h:outputLabel class="form-label" for="street" value="#{text['label.street']}"/>
+                        <h:inputText id="street" class="form-control" value="#{formView.bean.street}" required="true" binding="#{streetBinding}" requiredMessage="#{messages['STREET_MISSING']}" autocomplete="address-line1">
+                            <f:attribute name="zipComponent" value="#{zipBinding}" />
+                            <f:attribute name="cityComponent" value="#{cityBinding}" />
+                            <f:attribute name="suggestionContainer" value="#{formView.bean.suggestions}" />
+                            <f:validateLength minimum="2" maximum="255" />
+                            <f:validator validatorId="play.AddressValidator" />
+                            <f:ajax event="keyup" delay="300" execute="formly:address" render="formly:address-suggestions" />
+                        </h:inputText>
+                        <h:messages id="m_street" class="messages-input" for="street" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup id="address-suggestions" class="row mb-3" layout="block">
+                    <ui:repeat id="suggestions" value="#{formView.getAddressSuggestions()}" var="suggestion" rendered="#{not empty formView.getAddressSuggestions()}">
+                        <div>
+                            <span>#{suggestion.zip} #{suggestion.city},  #{suggestion.street}</span>
+                            <span>
+                                <h:commandButton id="takeOverSuggestion" actionListener="#{formView.takeOverSuggestion(suggestion)}" class="btn btn-sm btn-secondary" value="#{text['button.takeOver']}">
+                                    <f:param name="skipAddressValidator" value="true"/>
+                                    <f:ajax execute="formly:address" render="formly:address formly:address-suggestions" />
+                                </h:commandButton>
+                            </span>
+                        </div>
+                    </ui:repeat>
+                </h:panelGroup>
+
+                <div class="mb-3">
+                    <h:commandButton id="submit" class="btn btn-primary" value="#{text['button.submit']}">
+                        <f:ajax listener="#{formView.submit}" execute="@form" render="@form" />
+                    </h:commandButton>
+                </div>
+
+            </ui:fragment>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

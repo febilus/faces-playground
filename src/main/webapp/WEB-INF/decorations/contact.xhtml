@@ -1,0 +1,24 @@
+<!-- Template Decoration
+    Wiederverwendbare Include File. Kann überall benutzt werden wo <ui:insert> benutzt wird,
+    Überall genauso wie <ui:inset zu benutzen, jedoch mit <ui:decorate:
+
+    <ui:decorate template="/WEB-INF/decorations/contact.xhtml">
+        <ui:param name="mailto" value="press" />
+        <h3>Kontaktieren Sie uns</h3>
+    </ui:decorate>
+-->
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    >
+
+    <section class="contact">
+        <header><ui:insert /></header>
+        <nav>
+            <ul>
+                <li><a href="mailto: #{empty mailto ? 'info' : mailto}@playground.dummy">#{empty mailto ? 'info' : mailto}@playground.de</a></li>
+                <li><a href="tel:+123456890" title="#{text['phone']}">+1234567890</a></li>
+            </ul>
+        </nav>
+    </section>
+
+</ui:composition>
