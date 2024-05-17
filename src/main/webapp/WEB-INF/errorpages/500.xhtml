@@ -9,17 +9,33 @@
     <ui:param name="title" value="Fail" />
 
     <ui:define name="content">
-        <h1>Hoppla, da ist ein technischer Fehler aufgetreten</h1>
-
+        <div class="alert alert-danger">Hoppla, da ist ein technischer Fehler aufgetreten</div>
         <dl>
-            <dt>Request URI</dt>
+            <dt>Aufgerufene URI</dt>
             <dd>#{requestScope['jakarta.servlet.error.request_uri']}</dd>
         </dl>
 
-        <c:if test="DEVELOPMENT">
-            <h3>Entickler Information:</h3>
+        <c:if test="#{DEVELOPMENT}">
+            <h4>Entwickler Information</h4>
+            <ul>
+                <li>
+                    Exception Class:<br />
+                    <code>#{requestScope['jakarta.servlet.error.exception']['class']}</code>
+                </li>
+                <li>
+                    Exception Message:<br />
+                    <code>#{requestScope['jakarta.servlet.error.exception']['message']}</code>
+                </li>
+                <li>
+                    Stacktrace:<br />
+                    <code>
+                        <ui:repeat var="st" value="#{requestScope['jakarta.servlet.error.exception'].getStackTrace()}">
+                            #{st.getClassName()}.#{st.getMethodName()}(#{st.getFileName()}:#{st.getLineNumber()})<br />
+                        </ui:repeat>
+                    </code>
+                </li>
+            </ul>
         </c:if>
-
 
     </ui:define>
 </ui:composition>

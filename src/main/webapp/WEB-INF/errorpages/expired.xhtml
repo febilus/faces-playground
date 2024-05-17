@@ -1,0 +1,23 @@
+<ui:composition
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:play="playground.tags"
+    xmlns:c="jakarta.tags.core">
+
+    <ui:param name="title" value="Sitzung abgelaufen" />
+
+    <ui:define name="content">
+        <h1>#{text['pages.expired.header']}</h1>
+        <h3>#{text['pages.expired.redirected']}</h3>
+
+        <p><a href="#{request.contextPath}/">#{text['pages.expired.clickHereToRedirect']}</a></p>
+        <script>
+            setTimeout(() => {
+                location = '/';
+            }, 2000);
+        </script>
+    </ui:define>
+
+</ui:composition>
