@@ -1,0 +1,84 @@
+<ui:composition
+    xmlns:faces="jakarta.faces"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:c="jakarta.tags.core"
+    xmlns:f="jakarta.faces.core">
+
+    <div class="field" faces:rendered="#{rendered ne false}">
+        <ui:insert name="beforeLabel" />
+        <ui:insert name="label">
+            <h:outputLabel id="#{id}_1" for="#{id}" value="#{label}" class="form-label">
+                <span><ui:insert name="insideLabel" /></span>
+            </h:outputLabel>
+        </ui:insert>
+        <ui:insert name="beforeInput" />
+        <c:choose>
+            <c:when test="#{type eq 'password'}">
+                <h:inputSecret id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputSecret>
+            </c:when>
+            <c:when test="#{type eq 'textarea'}">
+                <h:inputTextarea id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputTextarea>
+            </c:when>
+            <c:when test="#{type eq 'tel'}">
+                <h:inputText type="tel" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'email'}">
+                <h:inputText type="email" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'number'}">
+                <h:inputText type="number" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'search'}">
+                <h:inputText type="search" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'date'}">
+                <h:inputText type="date" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'time'}">
+                <h:inputText type="time" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:when test="#{type eq 'datetime'}">
+                <h:inputText type="datetime-local" id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:when>
+            <c:otherwise>
+                <h:inputText id="#{id}" label="#{label}" value="#{value}" requiredMessage="#{requiredMessage}" class="form-control">
+                    <ui:insert />
+                    <f:validateRequired disabled="#{empty requiredMessage}"/>
+                </h:inputText>
+            </c:otherwise>
+        </c:choose>
+        <ui:insert name="beforeMessages" />
+        <ui:insert name="messages">
+            <h:message id="#{id}_m" for="#{id}" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+        </ui:insert>
+    </div>
+
+</ui:composition>

@@ -1,0 +1,17 @@
+<ui:composition
+    xmlns:faces="jakarta.faces"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:c="jakarta.tags.core"
+    xmlns:f="jakarta.faces.core">
+
+    <div class="button" faces:rendered="#{rendered ne false}">
+        <ui:insert name="beforeButton" />
+        <h:commandButton id="#{id}" value="#{label}">
+            <f:actionListener binding="#{action}" />
+            <f:ajax execute="@form" render="@form #{render}" />
+        </h:commandButton>
+        <ui:insert name="afterButton" />
+    </div>
+
+</ui:composition>

@@ -44,18 +44,13 @@ public class AddressValidator implements Validator<String> {
             return;
         }
 
-        HtmlInputText zipComponent = (HtmlInputText) component.getAttributes().get("zipComponent");
-        HtmlInputText cityComponent = (HtmlInputText) component.getAttributes().get("cityComponent");
-        HtmlInputText streetComponent = (HtmlInputText) component.getAttributes().get("streetComponent");
-        List<AddressSuggestion> suggestionsContainer = (List<AddressSuggestion>) component.getAttributes().get("suggestionContainer");
+        String componentIds = (String) component.getAttributes().get("componentIds");
+        String[] splittetIds = componentIds.split(",");
 
-        if (cityComponent != null && streetComponent != null) {
-            zipComponent = (HtmlInputText) component;
-        } else if (zipComponent != null && streetComponent != null) {
-            cityComponent = (HtmlInputText) component;
-        } else if (zipComponent != null && cityComponent != null) {
-            streetComponent = (HtmlInputText) component;
-        }
+        HtmlInputText zipComponent = findInputComponent(component, splittetIds[0]);
+        HtmlInputText cityComponent = findInputComponent(component, splittetIds[1]);
+        HtmlInputText streetComponent = findInputComponent(component, splittetIds[2]);
+        List<AddressSuggestion> suggestionsContainer = (List<AddressSuggestion>) component.getAttributes().get("suggestionContainer");
 
         String zip = getCurrentValue(zipComponent);
         String city = getCurrentValue(cityComponent);
@@ -87,6 +82,17 @@ public class AddressValidator implements Validator<String> {
             }
 
         }
+    }
+
+    private HtmlInputText findInputComponent(UIComponent component, String id) {
+        if (component.getId().equals(id) && component instanceof HtmlInputText) {
+            return (HtmlInputText) component;
+        }
+        Object obj = component.findComponent(id);
+        if (obj instanceof HtmlInputText) {
+            return (HtmlInputText) component.findComponent(id);
+        }
+        return null;
     }
 
     private String getCurrentValue(HtmlInputText inputText) {
