@@ -1,0 +1,22 @@
+<ui:component
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:cc="jakarta.faces.composite"
+    >
+
+    <cc:interface>
+        <cc:attribute name="src" type="java.lang.String" shortDescription="Src of the Image" />
+        <cc:attribute name="alt" type="java.lang.String" shortDescription="Alt of the Image" />
+        <cc:attribute name="width" type="java.lang.Integer" />
+    </cc:interface>
+
+    <cc:implementation>
+        <span id="#{cc.clientId}">
+            <cc:renderFacet name="before" />
+            <h:graphicImage value="#{cc.attrs.src}" alt="#{cc.attrs.alt}" width="#{cc.attrs.width}"/>
+            <cc:renderFacet name="after" />
+        </span>
+    </cc:implementation>
+
+</ui:component>
