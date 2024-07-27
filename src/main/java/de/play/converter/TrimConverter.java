@@ -7,7 +7,7 @@ import jakarta.faces.convert.FacesConverter;
 
 /**
  * Alle Parameter eines Requests werden beim Eingang getrimmt. Bindet sich an
- * String,java
+ * String.java
  */
 @FacesConverter(forClass = String.class)
 public class TrimConverter implements Converter<String> {

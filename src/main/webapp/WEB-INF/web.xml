@@ -4,22 +4,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
 
+    <!--Liste der context-params:  https://jakarta.ee/specifications/faces/4.0/apidocs/jakarta/faces/webapp/facesservlet -->
+
     <context-param>
         <param-name>jakarta.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
+        <!--<param-value>Production</param-value>-->
     </context-param>
 
+    <!-- Dauer wie lange Facelets gecached werden in sec. Wert von 0=kein cache, führt jedoch zu längeren Seitenladezeiten-->
     <context-param>
         <param-name>jakarta.faces.FACELETS_REFRESH_PERIOD</param-name>
         <param-value>5</param-value>
     </context-param>
 
-    <!-- no need to add .xhtml to urls -->
+    <!-- URLs sind auch ohne den .xhtml Zusatz aufrufbar -->
     <context-param>
-        <param-name>jakarta.faces.AUTOMATIC_EXTENSIONLESS_MAPPING_PARAM_NAME</param-name>
+        <param-name>jakarta.faces.AUTOMATIC_EXTENSIONLESS_MAPPING</param-name>
         <param-value>true</param-value>
     </context-param>
 
+    <!-- Normalerweise kommen Input Felder als Leerstring an. Hiermit kommt ein Leerstrings als null an.
+         https://jakarta.ee/learn/docs/jakartaee-tutorial/current/beanvalidation/bean-validation/bean-validation.html
+    -->
     <context-param>
         <param-name>jakarta.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
         <param-value>true</param-value>
@@ -35,6 +42,7 @@
         <param-value>true</param-value>
     </context-param>
 
+    <!-- eigene tagLibs. Bei mehreren mit ';' getrennt angeben. -->
     <context-param>
         <param-name>jakarta.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/playground.taglib.xml</param-value>

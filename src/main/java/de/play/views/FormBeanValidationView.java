@@ -2,7 +2,7 @@ package de.play.views;
 
 import de.play.controller.beans.AddressSuggestion;
 import de.play.session.ActiveLocale;
-import de.play.views.beans.FormBean;
+import de.play.views.beans.FormBeanValidationBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
@@ -10,6 +10,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.validation.Validator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
@@ -19,9 +20,9 @@ import java.util.logging.Logger;
 
 @Named
 @RequestScoped
-public class FormView {
+public class FormBeanValidationView {
 
-    private static final Logger LOGGER = Logger.getLogger(FormView.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(FormBeanValidationView.class.getName());
 
     @Inject
     FacesContext facesContext;
@@ -29,13 +30,23 @@ public class FormView {
     ActiveLocale activeLocale;
 
     @Inject
-    FormBean bean;
+    FormBeanValidationBean bean;
 
     @PostConstruct
     public void init() {
     }
 
+    @Inject
+    Validator validator;
+
     public void submit(AjaxBehaviorEvent event) {
+        // pragmatische Lösung über Aufruf Validierung bei Submit
+        // Nachteil: hier kommt man nur rein, wenn die Phase 3 (Validierun) erfolgreich war
+//        Set<ConstraintViolation<Address>> violations = validator.validate(bean.getAddress());
+//        if (!violations.isEmpty()) {
+//            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(violations.iterator().next().getMessage()));
+//        }
+//
         LOGGER.info("submit!");
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, activeLocale.resolve("submit.thankYou"), null);
         facesContext.addMessage(null, message);
@@ -44,13 +55,13 @@ public class FormView {
 
     public void takeOverSuggestion(AddressSuggestion suggestion) {
         if (isSet(suggestion.getZip())) {
-            bean.setZip(suggestion.getZip());
+            bean.getAddress().setZip(suggestion.getZip());
         }
         if (isSet(suggestion.getCity())) {
-            bean.setCity(suggestion.getCity());
+            bean.getAddress().setCity(suggestion.getCity());
         }
         if (isSet(suggestion.getStreet())) {
-            bean.setStreet(suggestion.getStreet());
+            bean.getAddress().setStreet(suggestion.getStreet());
         }
         bean.getSuggestions().clear();
     }
@@ -74,7 +85,7 @@ public class FormView {
         return bean.getSuggestions();
     }
 
-    public FormBean getBean() {
+    public FormBeanValidationBean getBean() {
         return bean;
     }
 
