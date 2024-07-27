@@ -15,7 +15,7 @@ Go to the project directory
 Start the server
 
 ```bash
-  npm clean package wildfly:dev
+  mvn clean package wildfly:dev
 ```
 
 You can the project at http://localhost:8080/
