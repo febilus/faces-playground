@@ -28,6 +28,7 @@ nbdist/
 .nb-gradle/
 nb-configuration.xml
 faces-config.NavData
+.settings/**
 
 # visual studio code
 .vscode/*

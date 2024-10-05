@@ -40,8 +40,8 @@ public class FormBeanValidationView {
     Validator validator;
 
     public void submit(AjaxBehaviorEvent event) {
-        // pragmatische Lösung über Aufruf Validierung bei Submit
-        // Nachteil: hier kommt man nur rein, wenn die Phase 3 (Validierun) erfolgreich war
+        // programmatische Lösung über Aufruf Validierung bei Submit
+        // Nachteil: hier kommt man nur rein, wenn die Phase 3 (Validierung) erfolgreich war.
 //        Set<ConstraintViolation<Address>> violations = validator.validate(bean.getAddress());
 //        if (!violations.isEmpty()) {
 //            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(violations.iterator().next().getMessage()));
