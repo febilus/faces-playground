@@ -1,0 +1,1 @@
+console.log('global-2.js');

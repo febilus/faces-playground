@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="#{activeLocale.languageTag}"
       xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:faces="jakarta.faces"
       xmlns:ui="jakarta.faces.facelets"
       xmlns:h="jakarta.faces.html"
       xmlns:c="jakarta.tags.core"
+      xmlns:pt="jakarta.faces.passthrough"
       xmlns:f="jakarta.faces.core">
     <f:view locale="#{activeLocale.currentLocale}">
         <h:head>
             <title>#{title}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <h:outputStylesheet library="css" name="bootstrap.min.css" />
-            <h:outputStylesheet library="css" name="default.css"/>
+            <link faces:library="css" faces:name="default.css" />
             <link rel="icon" href="/resources/images/layout/favicon.png" type="image/png" sizes="32x32" />
             <link rel="icon" href="/resources/images/layout/favicon.svg" type="image/svg+xml" />
             <link rel="apple-touch-icon" href="/resources/images/layout/favicon.png" />
+            <!-- statt h:outputscript, faces benutzten: -->
+            <ui:repeat value="#{scriptFilesView.getResources()}" var="url">
+                <script faces:name="#{url}" faces:library="js" defer="defer"></script>
+            </ui:repeat>
+            <ui:insert name="headAdditional" />
         </h:head>
         <h:body>
             <c:set var="DEVELOPMENT" scope="application" value="#{facesContext.application.projectStage eq 'Development'}"/>

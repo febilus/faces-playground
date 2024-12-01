@@ -1,12 +1,25 @@
 <ui:composition
     template="/WEB-INF/templates/layout.xhtml"
+    xmlns:faces="jakarta.faces"
     xmlns:ui="jakarta.faces.facelets"
     xmlns:h="jakarta.faces.html"
     xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
     xmlns:playcc="jakarta.faces.composite/playcc"
     >
 
     <ui:param name="title" value="Willkommen!" />
+
+    <f:metadata>
+        <!-- Faces 4.0 kann Konstanten nur in f:metadata importieren.
+        In nächster Version vielleicht überall möglich. Siehe https://github.com/jakartaee/faces/issues/1466 -->
+        <f:importConstants type="de.play.controller.ScriptFile" />
+        <f:viewAction action="#{scriptFilesView.addWanted(ScriptFile.GLOBAL,ScriptFile.GLOBAL_2)}" />
+    </f:metadata>
+
+    <ui:define name="headAdditional">
+        <script faces:name="global-3.js" faces:library="js" defer="defer"></script>
+    </ui:define>
 
     <ui:define name="content">
         <h1>#{text['pages.index.header']}</h1>
@@ -28,7 +41,7 @@
         <br />
         <br />
 
-        <playcc:exampleImage id="my-example-image" src="/resources/images/layout/favicon.svg" alt="alternate text" width="32">
+        <playcc:exampleImage id="my-example-image" src="/resources/images/layout/favicon.svg" alt="alternate text" width="32" height="32">
             <f:facet name="before">
                 before image
             </f:facet>
@@ -36,6 +49,9 @@
                 <span>after image</span>
             </f:facet>
         </playcc:exampleImage>
+
+        <playcc:compositeWithScripts />
+        <h:outputScript library="js" name="global-4.js" target="head" pt:defer="defer" />
 
     </ui:define>
 </ui:composition>

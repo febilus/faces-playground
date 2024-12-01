@@ -1,0 +1,17 @@
+<ui:component
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:cc="jakarta.faces.composite"
+    >
+
+    <cc:interface>
+    </cc:interface>
+
+    <cc:implementation>
+        <!-- Wird im <head> hinzugefügt. Reihenfolge unbekannt -->
+        <h:outputScript library="js" name="script-from-composite.js" target="head" pt:defer="defer"/>
+    </cc:implementation>
+
+</ui:component>

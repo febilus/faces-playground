@@ -1,0 +1,1 @@
+console.log('global-4.js');
