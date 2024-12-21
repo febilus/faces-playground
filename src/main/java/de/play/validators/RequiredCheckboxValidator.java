@@ -10,9 +10,9 @@ import jakarta.faces.validator.ValidatorException;
 import java.text.MessageFormat;
 
 @FacesValidator(value = "play.RequiredCheckboxValidator", managed = false)
-public class RequiredCheckboxValidator implements Validator {
+public class RequiredCheckboxValidator implements Validator<Boolean> {
 
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Boolean value) throws ValidatorException {
         if (Boolean.FALSE.equals(value)) {
             String requiredMessage = ((UIInput) component).getRequiredMessage();
 

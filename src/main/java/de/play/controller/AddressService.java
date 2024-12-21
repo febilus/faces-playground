@@ -1,7 +1,7 @@
 package de.play.controller;
 
-import de.play.controller.beans.AddressValidationSummary;
 import de.play.controller.beans.AddressSuggestion;
+import de.play.controller.beans.AddressValidationSummary;
 import de.play.jpa.dao.ZipCityDAO;
 import de.play.jpa.dao.ZipStreetDAO;
 import de.play.jpa.entity.ZipCity;
@@ -16,17 +16,27 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 
 @ApplicationScoped
 public class AddressService {
+
+    private final Pattern STREET_NUMBER_PATTERN;
 
     @Inject
     private ZipCityDAO zipCityDAO;
     @Inject
     private ZipStreetDAO zipStreetDAO;
 
-    private final JaroWinklerSimilarity jaroWinklerSimilarity = new JaroWinklerSimilarity();
+    private final JaroWinklerSimilarity jaroWinklerSimilarity;
+    private final JaccardSimilarity jaccardSimilarity;
+
+    public AddressService() {
+        this.STREET_NUMBER_PATTERN = Pattern.compile("([0-9]+.*)");
+        jaroWinklerSimilarity = new JaroWinklerSimilarity();
+        jaccardSimilarity = new JaccardSimilarity();
+    }
 
     public AddressValidationSummary validate(String zip, String city, String street) {
         String cityNormalized = normalize(city);
@@ -181,8 +191,16 @@ public class AddressService {
     }
 
     private boolean isSimilar(String value1, String value2) {
-        double result = jaroWinklerSimilarity.apply(value1, value2);
-        return result >= 0.86;
+        double jaro = jaroWinklerSimilarity.apply(value1, value2);
+        boolean simimilar = jaro >= 0.86;
+        if (simimilar) {
+            return true;
+        }
+        Double jaccard = jaccardSimilarity.apply(value1, value2);
+        if (jaccard != null && jaccard > 0.4) {
+            return true;
+        }
+        return false;
     }
 
     private boolean isSet(String value) {
@@ -190,7 +208,6 @@ public class AddressService {
     }
 
     private String findStreetNumber(String street) {
-        Pattern STREET_NUMBER_PATTERN = Pattern.compile("([0-9]+.*)");
         Matcher matcher = STREET_NUMBER_PATTERN.matcher(street);
         if (matcher.find()) {
             return matcher.group(0);

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Wenn Managed, sind injects möglich
@@ -50,6 +51,7 @@ public class AddressValidator implements Validator<String> {
         HtmlInputText zipComponent = findInputComponent(component, splittetIds[0]);
         HtmlInputText cityComponent = findInputComponent(component, splittetIds[1]);
         HtmlInputText streetComponent = findInputComponent(component, splittetIds[2]);
+        @SuppressWarnings("unchecked")
         List<AddressSuggestion> suggestionsContainer = (List<AddressSuggestion>) component.getAttributes().get("suggestionContainer");
 
         String zip = getCurrentValue(zipComponent);
@@ -73,12 +75,10 @@ public class AddressValidator implements Validator<String> {
 
             validatedInCurrentRequest = true;
             if (!messages.isEmpty()) {
-                String message = activeLocale.resolve("ADDRESS_INVALID");
-//            List<FacesMessage> facesMessags = messages.values().stream()
-//                    .flatMap(entry -> entry.stream())
-//                    .collect(Collectors.toList());
-//            throw new ValidatorException(facesMessags);
-                throw new ValidatorException(new FacesMessage());
+            List<FacesMessage> facesMessages = messages.values().stream()
+                    .flatMap(entry -> entry.stream())
+                    .collect(Collectors.toList());
+            throw new ValidatorException(facesMessages);
             }
 
         }
@@ -102,13 +102,12 @@ public class AddressValidator implements Validator<String> {
         return (String) inputText.getValue();
     }
 
-    private AddressValidationSummary validateAddress(HtmlInputText zipComponent, HtmlInputText cityComponent, HtmlInputText streetComponent) {
-        String zip = zipComponent.getSubmittedValue() != null ? (String) zipComponent.getSubmittedValue() : (String) zipComponent.getValue();
-        String city = cityComponent.getSubmittedValue() != null ? (String) cityComponent.getSubmittedValue() : (String) cityComponent.getValue();
-        String street = streetComponent.getSubmittedValue() != null ? (String) streetComponent.getSubmittedValue() : (String) streetComponent.getValue();
-        return addressService.validate(zip, city, street);
-    }
-
+    // private AddressValidationSummary validateAddress(HtmlInputText zipComponent, HtmlInputText cityComponent, HtmlInputText streetComponent) {
+    //     String zip = zipComponent.getSubmittedValue() != null ? (String) zipComponent.getSubmittedValue() : (String) zipComponent.getValue();
+    //     String city = cityComponent.getSubmittedValue() != null ? (String) cityComponent.getSubmittedValue() : (String) cityComponent.getValue();
+    //     String street = streetComponent.getSubmittedValue() != null ? (String) streetComponent.getSubmittedValue() : (String) streetComponent.getValue();
+    //     return addressService.validate(zip, city, street);
+    // }
     private Map<String, List<FacesMessage>> mapToFacesMessages(AddressValidationSummary summary) {
         Map<String, List<FacesMessage>> messages = new HashMap<>();
         for (Entry<String, Set<String>> entry : summary.getMessages().entrySet()) {

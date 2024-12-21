@@ -10,7 +10,7 @@
     <f:view locale="#{activeLocale.currentLocale}">
         <h:head>
             <title>#{title}</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <h:outputStylesheet library="css" name="bootstrap.min.css" />
             <link faces:library="css" faces:name="default.css" />
             <link rel="icon" href="/resources/images/layout/favicon.png" type="image/png" sizes="32x32" />
@@ -23,7 +23,7 @@
             <ui:insert name="headAdditional" />
         </h:head>
         <h:body>
-            <c:set var="DEVELOPMENT" scope="application" value="#{facesContext.application.projectStage eq 'Development'}"/>
+            <c:set var="DEVELOPMENT" scope="application" value="#{facesContext.application.projectStage eq 'Development'}" />
             <div class="container-xl">
                 <div class="row">
                     <div class="col">

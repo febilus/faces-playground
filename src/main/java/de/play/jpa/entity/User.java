@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "play_user")
 public class User implements Serializable {
 
-    private static final long serialVesionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -18,10 +18,10 @@
     --color-success-muted: rgba(46,160,67,0.4);
     --color-success-subtle: rgba(46,160,67,0.15);
 
-    --color-attention-fg: #d29922;
+    --color-attention-fg: #e52;
     --color-attention-emphasis: #9e6a03;
-    --color-attention-muted: rgba(187,128,9,0.4);
-    --color-attention-subtle: rgba(187,128,9,0.15);
+    --color-attention-muted: rgba(200,70,40,0.3);
+    --color-attention-subtle: rgba(200,70,40,0.15);
 
     --color-danger-fg: #f85149;
     --color-danger-emphasis: #da3633;
@@ -68,12 +68,13 @@ a:link:hover, a:visited:hover  {
 .messages-input {
     margin:0;
     padding:0;
-}
-.messages li
-.messages-input {
     list-style: none;
+}
+.messages li,
+.messages-input {
     padding:0;
     margin:0;
+    list-style: none;
 }
 
 .messages-info,
@@ -99,14 +100,17 @@ a:link:hover, a:visited:hover  {
     background-color: var(--color-succes-emphasis);
     color:var(--color-succes-fg);
     border-radius: 0.3rem;
+    padding:0.3rem;
 }
 .messages:has(> .messages-error) {
     border: 1px solid var(--color-attention-fg);
     background-color: var(--color-attention-muted);
     border-radius: 0.3rem;
+    padding:0.3rem;
 }
 .messages:has(> .messages-fatal) {
     border: 1px solid var(--color-danger-fg);
     background-color: var(--color-danger-emphasis);
     border-radius: 0.3rem;
+    padding:0.3rem;
 }

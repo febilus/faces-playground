@@ -13,8 +13,6 @@ import java.io.Serializable;
 @Table(name = "zip_city")
 public class ZipCity implements Serializable {
 
-    private static final long serialVesionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
