@@ -1,0 +1,19 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    template="/WEB-INF/templates/layout.xhtml"
+
+    xmlns:playcc="jakarta.faces.composite/playcc">
+
+    <ui:param name="title" value="#{text['pages.register.header']}" />
+
+    <ui:define name="content">
+        <h1>#{text['pages.register.header']}</h1>
+        <br /><br />
+
+        <playcc:registerForm />
+
+    </ui:define>
+</ui:composition>

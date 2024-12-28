@@ -1,0 +1,54 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:playcc="jakarta.faces.composite/playcc"
+    template="/WEB-INF/templates/layout.xhtml"
+    >
+
+    <ui:param name="title" value="#{text['pages.user-management.header']}" />
+
+    <ui:define name="content">
+        <h1>#{text['pages.user-management.header']}</h1>
+        <br /><br />
+
+        <h:dataTable id="user-list" class="table table-dark table-hover" value="#{userManagement.listUsers()}" var="user">
+            <h:column>
+                <f:facet name="header">#{text['label.email']}</f:facet>
+                    #{user.email}
+            </h:column>
+            <h:column>
+                <f:facet name="header">#{text['label.birthday']}</f:facet>
+                    #{user.birthday}
+            </h:column>
+        </h:dataTable>
+
+        <hr/>
+
+        <h:form id="add-user-button-form">
+            <h:commandButton class="btn btn-primary" value="#{text['pages.user-management.add-user']}" rendered="#{not userManagement.bean.showRegisterForm}">
+                <f:ajax listener="#{userManagement.bean.setShowRegisterForm(true)}" render="@form register-form-container" />
+            </h:commandButton>
+        </h:form>
+
+        <h:panelGroup id="register-form-container" class="row" layout="block">
+            <div class="col col-md-6 offset-md-3">
+                <playcc:registerForm render="user-list add-user-button-form register-form-container" showSubmittedForm="true" rendered="#{userManagement.bean.showRegisterForm}">
+                    <f:actionListener for="registerEvent" binding="#{userManagement.registerActionListener}" />
+                    <f:facet name="insertBeforeSubmit">
+                        <span class="mr-2">
+                            <h:form>
+                                <h:commandButton class="btn btn-secondary" value="#{text['button.cancel']}">
+                                    <f:ajax listener="#{userManagement.bean.setShowRegisterForm(false)}" render="add-user-button-form register-form-container" />
+                                </h:commandButton>
+                            </h:form>
+                        </span>
+                    </f:facet>
+                </playcc:registerForm>
+            </div>
+        </h:panelGroup>
+
+
+    </ui:define>
+</ui:composition>

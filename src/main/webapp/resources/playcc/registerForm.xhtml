@@ -1,0 +1,60 @@
+<ui:component
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:cc="jakarta.faces.composite"
+    >
+
+    <cc:interface>
+        <cc:attribute name="render" type="java.lang.String" default="@this"/>
+        <cc:attribute name="showSubmittedForm" type="java.lang.Boolean" default="false" />
+        <cc:actionSource name="registerEvent" targets="register-form:submitButton"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <h:form id="register-form">
+
+            <h:messages id="messages" class="messages" showSummary="false" showDetail="true" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+            <ui:fragment rendered="#{registerFormView.showForm(cc.attrs.showSubmittedForm)}">
+                <div class="mb-3">
+                    <h:outputLabel class="form-label" for="email" value="#{text['label.email']}" />
+                    <h:inputText type="email" id="email" class="form-control" value="#{registerFormView.bean.email}" required="true" requiredMessage="#{messages['EMAIL_MISSING']}">
+                        <f:validator validatorId="play.EmailValidator" />
+                    </h:inputText>
+                    <h:messages id="m-email" class="messages-input" for="email" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="mb-3">
+                    <div class="input-group">
+                        <h:inputSecret id="new-password" value="#{registerFormView.bean.password}" requiredMessage="#{messages['PASSWORD_MISSING']}" class="form-control">
+                            <f:validateRequired />
+                        </h:inputSecret>
+                        <button class="btn btn-light" type="button" onclick="this.previousElementSibling.setAttribute('type', this.previousElementSibling.type === 'text' ? 'password' : 'text')">&#128065;</button>
+                    </div>
+                    <h:messages id="m-new-password" class="messages-input" for="new-password" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="mb-3">
+                    <h:outputLabel class="form-label" for="birthday" value="#{text['label.birthday']}" />
+                    <h:inputText id="birthday" class="form-control" type="date" pt:min="#{registerFormView.minBirthday}" pt:max="#{registerFormView.maxBirthday}" value="#{registerFormView.bean.birthday}" required="true" requiredMessage="#{messages['BIRTHDAY_MISSING']}">
+                        <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                        <f:validator validatorId="play.DateValidator" />
+                        <f:attribute name="minDate" value="#{registerFormView.minBirthday}" />
+                        <f:attribute name="maxDate" value="#{registerFormView.maxBirthday}" />
+                    </h:inputText>
+                    <h:messages id="m-birthday" class="messages-input" for="birthday" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+                </div>
+
+                <div class="mb-3">
+                    <cc:renderFacet name="insertBeforeSubmit" />
+                    <h:commandButton id="submitButton" class="btn btn-primary" value="#{text['button.submit']}">
+                        <f:ajax listener="#{registerFormView.submit}" execute="@form" render="@form #{cc.attrs.render}" />
+                    </h:commandButton>
+                </div>
+
+            </ui:fragment>
+        </h:form>
+    </cc:implementation>
+
+</ui:component>

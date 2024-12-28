@@ -1,11 +1,12 @@
 -- CREATE TABLE user (
 --     id BIGINT NOT NULL AUTO_INCREMENT,
 --     uemail VARCHAR(255) NOT NULL,
+--     birthday DATE NOT NULL,
 --     upassword VARCHAR(255) NOT NULL,
 --     PRIMARY KEY (id)
 -- );
 
-INSERT INTO play_user (uemail, upassword) VALUES ('play@ground.dummy', 'playPassword');
+INSERT INTO play_user (uemail, birthday, upassword) VALUES ('play@ground.dummy', '2000-01-01','playPassword');
 
 -- CREATE TABLE zip_city (
 --     id BIGINT NOT NULL AUTO_INCREMENT,

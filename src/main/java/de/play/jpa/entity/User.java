@@ -6,8 +6,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,6 +25,11 @@ public class User implements Serializable {
     @NotNull
     @Column(name = "uemail", nullable = false, length = 255)
     private String email;
+
+    @NotNull
+    @Column(name = "birthday", nullable = false, columnDefinition = "DATE")
+    @Temporal(TemporalType.DATE)
+    private LocalDate birthday;
 
     @NotNull
     @Column(name = "upassword", nullable = false, length = 255)
@@ -44,6 +52,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
     }
 
     public String getPassword() {
