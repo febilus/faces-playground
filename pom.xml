@@ -17,17 +17,19 @@
         <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
-        <wildfly.version>34.0.1.Final</wildfly.version>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <war-plugin.version>3.4.0</war-plugin.version>
-        <wildfly-plugin.version>5.0.1.Final</wildfly-plugin.version>
+
+        <version.wildfly>34.0.1.Final</version.wildfly>
+        <version.wildfly-jar-plugin>11.0.2.Final</version.wildfly-jar-plugin>
+        <plugin.fork.embedded>true</plugin.fork.embedded>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.3</version>
+            <version>5.11.4</version>
         </dependency>
 
         <dependency>
@@ -46,7 +48,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.12.0</version>
+            <version>1.13.0</version>
         </dependency>
     </dependencies>
 
@@ -66,15 +68,36 @@
                 </configuration>
             </plugin>
 
-            <!-- Execute 'mvn clean package wildfly:dev' to run the application. -->
+            <!-- Execute 'mvn clean wildfly-jar:dev-watch' to run the application. -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${wildfly-plugin.version}</version>
+                <artifactId>wildfly-jar-maven-plugin</artifactId>
+                <version>${version.wildfly-jar-plugin}</version>
                 <configuration>
-                    <version>${wildfly.version}</version>
-                    <server-config>standalone.xml</server-config>
+                    <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}</feature-pack-location>
+                    <layers>
+                        <layer>jaxrs</layer>
+                        <layer>logging</layer>
+                        <layer>management</layer>
+                        <layer>ejb-lite</layer>
+                        <layer>jpa</layer>
+                        <layer>jsf</layer>
+                        <layer>h2-default-datasource</layer>
+                    </layers>
+                    <excluded-layers>
+                        <layer>deployment-scanner</layer>
+                    </excluded-layers>
+                    <plugin-options>
+                        <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
+                    </plugin-options>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
