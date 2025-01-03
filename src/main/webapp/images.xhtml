@@ -1,0 +1,24 @@
+<ui:composition
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    template="/WEB-INF/templates/layout.xhtml"
+
+    xmlns:playcc="jakarta.faces.composite/playcc">
+
+    <ui:param name="title" value="#{text['pages.images.header']}" />
+
+    <ui:define name="content">
+        <h1>#{text['pages.images.header']}</h1>
+        <br /><br />
+        <p>#{text['pages.images.description']}</p>
+
+        <img src="/resources/images/layout/playground.svg" loading="lazy" />
+        <br />
+        <img src="/jakarta.faces.resource/images/layout/playground.svg.xhtml" loading="lazy" />
+        <br />
+        <h:graphicImage value="/resources/images/layout/playground.svg" library="images" pt:loading="lazy" />
+
+    </ui:define>
+</ui:composition>
