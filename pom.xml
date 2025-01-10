@@ -20,7 +20,7 @@
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
         <war-plugin.version>3.4.0</war-plugin.version>
 
-        <version.wildfly>34.0.1.Final</version.wildfly>
+        <version.wildfly>35.0.0.Final</version.wildfly>
         <version.wildfly-jar-plugin>11.0.2.Final</version.wildfly-jar-plugin>
         <plugin.fork.embedded>true</plugin.fork.embedded>
     </properties>
@@ -74,7 +74,14 @@
                 <artifactId>wildfly-jar-maven-plugin</artifactId>
                 <version>${version.wildfly-jar-plugin}</version>
                 <configuration>
-                    <feature-pack-location>wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}</feature-pack-location>
+                    <featurePacks>
+                        <feature-pack>
+                            <location>wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>org.wildfly:wildfly-datasources-galleon-pack:9.1.0.Final</location>
+                        </feature-pack>
+                    </featurePacks>
                     <layers>
                         <layer>jaxrs</layer>
                         <layer>logging</layer>
@@ -82,7 +89,7 @@
                         <layer>ejb-lite</layer>
                         <layer>jpa</layer>
                         <layer>jsf</layer>
-                        <layer>h2-default-datasource</layer>
+                        <layer>h2database-default-datasource</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
