@@ -33,7 +33,7 @@ public class UserManagement {
         try {
             return userDao.list();
         } catch (Exception e) {
-            return Collections.EMPTY_LIST;
+            return Collections.<User> emptyList();
         }
     }
 
