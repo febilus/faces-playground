@@ -1,0 +1,46 @@
+<ui:composition
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns:faces="jakarta.faces"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:playcc="jakarta.faces.composite/playcc"
+    >
+
+    <ui:param name="title" value="Rest Client" />
+
+    <ui:define name="headAdditional">
+        <script faces:name="global-3.js" faces:library="js" defer="defer"></script>
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{text['pages.rest-client.header']}</h1>
+        <br />
+        <br />
+
+
+        <h:form id="create-form">
+            <h:commandButton id="create-user-button" value="createUser()" role="button">
+                <f:ajax listener="#{restClientView.createUser}" render="m_create-user-button"/>
+            </h:commandButton>
+            <h:messages id="m_create-user-button" for="create-user-button" class="messages-input" showDetail="false" errorClass="messages-error" fatalClass="messages-fatal" infoClass="messages-info" />
+        </h:form>
+        <br/>
+
+        <h:form>
+            <h:commandButton value="getUsers()">
+                <f:ajax listener="#{restClientView.doShowUsers()}" render="all-users"/>
+            </h:commandButton>
+        </h:form>
+        <br/>
+
+        <h:panelGroup id="all-users" layout="block">
+            <ul>
+                <ui:repeat value="#{restClientView.users}" var="user" rendered="#{restClientView.isShowUsers()}">
+                    <li>#{user.email} - #{user.id} - #{user.dateOfRegistration}</li>
+                </ui:repeat>
+            </ul>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>
