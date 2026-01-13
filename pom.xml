@@ -18,18 +18,17 @@
         <maven.compiler.release>21</maven.compiler.release>
         <jakartaee-api.version>10.0.0</jakartaee-api.version>
         <compiler-plugin.version>3.14.1</compiler-plugin.version>
-        <war-plugin.version>3.4.0</war-plugin.version>
+        <war-plugin.version>3.5.1</war-plugin.version>
 
-        <version.wildfly>38.0.0.Final</version.wildfly>
+        <version.wildfly>38.0.1.Final</version.wildfly>
         <version.wildfly-jar-plugin>12.0.0.Final</version.wildfly-jar-plugin>
-        <plugin.fork.embedded>true</plugin.fork.embedded>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>6.0.0</version>
+            <version>6.0.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -49,7 +48,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.14.0</version>
+            <version>1.15.0</version>
         </dependency>
 
         <dependency>
@@ -90,38 +89,45 @@
                 </configuration>
             </plugin>
 
-            <!-- Execute 'mvn clean wildfly-jar:dev-watch' to run the application. -->
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-jar-maven-plugin</artifactId>
-                <version>${version.wildfly-jar-plugin}</version>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>5.1.5.Final</version>
                 <configuration>
-                    <featurePacks>
+                    <!-- debug -->
+                    <!--<debug>true</debug>-->
+                    <!--<debugPort>8787</debugPort>-->
+                    <!--<debugSuspend>true</debugSuspend>-->
+                    <!-- add admin user -->
+                    <user>
+                        <username>root</username>
+                        <password>root1234</password>
+                    </user>
+                    <!-- ignore reployment if properties changed -->
+                    <webExtensions>
+                        <webExtension>*.properties</webExtension>
+                    </webExtensions>
+                    <!-- bootable jar -->
+                    <bootableJar>false</bootableJar>
+                    <!-- features -->
+                    <feature-packs>
                         <feature-pack>
-                            <location>wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}</location>
+                           <location>wildfly@maven(org.jboss.universe:community-universe)#${version.wildfly}</location>
                         </feature-pack>
-                        <feature-pack>
-                            <location>org.wildfly:wildfly-datasources-galleon-pack:11.1.0.Final</location>
-                        </feature-pack>
-                    </featurePacks>
+                    </feature-packs>
                     <layers>
+                        <!-- Galleon layer allows to trim the installed server to your needs. The 'jaxrs-server'
+                        contains the server content required to execute JAXRS applications -->
                         <layer>jaxrs</layer>
                         <layer>logging</layer>
                         <layer>management</layer>
                         <layer>ejb-lite</layer>
                         <layer>jpa</layer>
                         <layer>jsf</layer>
-                        <layer>h2database-default-datasource</layer>
                         <layer>microprofile-rest-client</layer>
                         <layer>microprofile-config</layer>
                         <layer>microprofile-fault-tolerance</layer>
                     </layers>
-                    <excluded-layers>
-                        <layer>deployment-scanner</layer>
-                    </excluded-layers>
-                    <plugin-options>
-                        <jboss-fork-embedded>${plugin.fork.embedded}</jboss-fork-embedded>
-                    </plugin-options>
                 </configuration>
                 <executions>
                     <execution>
