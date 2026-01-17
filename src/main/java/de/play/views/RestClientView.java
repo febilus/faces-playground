@@ -44,7 +44,7 @@ public class RestClientView {
 
         User user = new User();
 
-        user.setEmail(UUID.randomUUID() + "@test.de");
+        user.setEmail(UUID.randomUUID() + "@atest.de");
         user.setPassword(String.valueOf(UUID.randomUUID()));
         user.setDateOfRegistration(LocalDateTime.now().minusYears(18));
         user.setBirthday(LocalDate.now().minusYears(23));

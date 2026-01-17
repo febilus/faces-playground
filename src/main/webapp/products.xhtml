@@ -1,0 +1,26 @@
+<ui:composition
+    template="/WEB-INF/templates/layout.xhtml"
+    xmlns:faces="jakarta.faces"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:h="jakarta.faces.html"
+    xmlns:f="jakarta.faces.core"
+    xmlns:pt="jakarta.faces.passthrough"
+    xmlns:playcc="jakarta.faces.composite/playcc"
+    >
+
+    <ui:param name="title" value="Rest Client" />
+
+    <ui:define name="headAdditional">
+        <script faces:name="global-3.js" faces:library="js" defer="defer"></script>
+    </ui:define>
+
+    <ui:define name="content">
+        <h1>#{text['pages.products.header']}</h1>
+
+        <ul>
+            <ui:repeat value="#{productsView.propducts}" var="product">
+                <li>#{product.id} - #{product.manufacturer()} - #{product.name()}</li>
+            </ui:repeat>
+        </ul>
+    </ui:define>
+</ui:composition>
